@@ -1,0 +1,27 @@
+#Реализуйте приложение «Магазин». В окне должны отображаться названия товаров и их стоимость за шт (или кг). Рядом с названием каждого товара должно выводиться текстовое 
+#поле для ввода количества (или кг). Внизу должна выводиться кнопка «Сумма», после нажатия на которую в виде метки должна отобразиться сумма для оплаты.  
+
+from tkinter import *
+root = Tk()
+root.title("Магазин")
+goods = {"Яблоки": 50, "Апельсины": 70, "Бананы": 40, "Морковь": 20, "Картофель": 15}
+total = 0
+def calculate():
+    global total
+    total = 0
+    for good in goods:
+        quantity = int(entries[good].get())
+        total += goods[good] * quantity
+    label_total.config(text="Сумма: " + str(total) + " руб.")
+entries = {}
+for good in goods:
+    label = Label(root, text=good + " - " + str(goods[good]) + " руб.")
+    label.pack()
+    entry = Entry(root)
+    entry.pack()
+    entries[good] = entry
+button = Button(root, text="Сумма", command=calculate)
+button.pack()
+label_total = Label(root, text="Сумма: 0 руб.")
+label_total.pack()
+root.mainloop()
