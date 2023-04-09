@@ -1,0 +1,89 @@
+#Напишите приложение «Анкета», которая предлагает пользователю заполнить следующие поля: фамилия и имя (текстовое поле), пол (радиокнопка), образование (список), 
+#адрес (текстовое поле), количество детей (список). Окно должно быть поделено на 2 фрейма. В левом фрейме должна отображаться сама анкета и кнопки «Отправить» и «Сброс». 
+#После нажатия на кнопку «Отправить» полученная информация должна отобразиться в соседнем фрейме (каждое заполненное поле в виде отдельной строки с пояснениями), 
+#а при нажатии на кнопку «Сброс»  должны быть очищены все поля анкеты и правый фрейм.
+import tkinter as tk
+
+class Application(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.master.title("Анкета")
+        self.pack()
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.form_frame = tk.Frame(self)
+        self.form_frame.pack(side="left")
+
+        self.name_label = tk.Label(self.form_frame, text="Фамилия и имя:")
+        self.name_label.pack()
+        self.name_entry = tk.Entry(self.form_frame)
+        self.name_entry.pack()
+
+        self.gender_label = tk.Label(self.form_frame, text="Пол:")
+        self.gender_label.pack()
+        self.gender_var = tk.StringVar()
+        self.gender_var.set("Мужской")
+        self.gender_male = tk.Radiobutton(self.form_frame, text="Мужской", variable=self.gender_var, value="Мужской")
+        self.gender_male.pack()
+        self.gender_female = tk.Radiobutton(self.form_frame, text="Женский", variable=self.gender_var, value="Женский")
+        self.gender_female.pack()
+
+        self.edu_label = tk.Label(self.form_frame, text="Образование:")
+        self.edu_label.pack()
+        self.edu_var = tk.StringVar()
+        self.edu_var.set("Среднее")
+        self.edu_menu = tk.OptionMenu(self.form_frame, self.edu_var, "Среднее", "Высшее", "Начальное", "Среднее специальное")
+        self.edu_menu.pack()
+
+        self.addr_label = tk.Label(self.form_frame, text="Адрес:")
+        self.addr_label.pack()
+        self.addr_entry = tk.Entry(self.form_frame)
+        self.addr_entry.pack()
+
+        self.children_label = tk.Label(self.form_frame, text="Количество детей:")
+        self.children_label.pack()
+        self.children_var = tk.StringVar()
+        self.children_var.set("Нет")
+        self.children_menu = tk.OptionMenu(self.form_frame, self.children_var, "Нет", "1", "2", "3 и более")
+        self.children_menu.pack()
+
+        self.button_frame = tk.Frame(self)
+        self.button_frame.pack(side="left", padx=10)
+        self.submit_button = tk.Button(self.button_frame, text="Отправить", command=self.submit_form)
+        self.submit_button.pack(pady=10)
+        self.reset_button = tk.Button(self.button_frame, text="Сброс", command=self.reset_form)
+        self.reset_button.pack(pady=10)
+
+        self.result_frame = tk.Frame(self)
+        self.result_frame.pack(side="right", padx=10)
+        self.result_label = tk.Label(self.result_frame, text="Результат:")
+        self.result_label.pack()
+        self.result_text = tk.Text(self.result_frame, height=10, width=30)
+        self.result_text.pack()
+
+    def submit_form(self):
+        name = self.name_entry.get()
+        gender = self.gender_var.get()
+        edu = self.edu_var.get()
+        addr = self.addr_entry.get()
+        children = self.children_var.get()
+
+        self.result_text.insert(tk.END, f"Фамилия и имя: {name}\n")
+        self.result_text.insert(tk.END, f"Пол: {gender}\n")
+        self.result_text.insert(tk.END, f"Образование: {edu}\n")
+        self.result_text.insert(tk.END, f"Адрес: {addr}\n")
+        self.result_text.insert(tk.END, f"Количество детей: {children}\n")
+
+    def reset_form(self):
+        self.name_entry.delete(0, tk.END)
+        self.gender_var.set("Мужской")
+        self.edu_var.set("Среднее")
+        self.addr_entry.delete(0, tk.END)
+        self.children_var.set("Нет")
+        self.result_text.delete("1.0", tk.END)
+
+root = tk.Tk()
+app = Application(master=root)
+app.mainloop()
