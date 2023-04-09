@@ -1,0 +1,32 @@
+#Напишите программу, которая позволяет выбрать с помощью различных шкал рост ученика (от 140 до 190 см), вес ученика (от 20 до 70 кг), год рождения ученика (от 2002 до 2012), 
+#а затем после нажатия кнопки «Вывод» выводит полученную информацию в текстовую метку в том же самом окне.
+
+import tkinter as tk
+window = tk.Tk()
+window.title("Информация об ученике")
+window.geometry("300x300")
+height = tk.StringVar()
+weight = tk.StringVar()
+birth_year = tk.StringVar()
+def show_info():
+    info_label.config(text=f"Рост: {height.get()} см\nВес: {weight.get()} кг\nГод рождения: {birth_year.get()}")
+height_label = tk.Label(window, text="Рост (см):")
+height_label.pack()
+height_scale = tk.Scale(window, from_=140, to=190, orient=tk.HORIZONTAL, variable=height)
+height_scale.set(170)
+height_scale.pack()
+weight_label = tk.Label(window, text="Вес (кг):")
+weight_label.pack()
+weight_scale = tk.Scale(window, from_=20, to=70, orient=tk.HORIZONTAL, variable=weight)
+weight_scale.set(50)
+weight_scale.pack()
+birth_year_label = tk.Label(window, text="Год рождения:")
+birth_year_label.pack()
+birth_year_scale = tk.Scale(window, from_=2002, to=2012, orient=tk.HORIZONTAL, variable=birth_year)
+birth_year_scale.set(2005)
+birth_year_scale.pack()
+output_button = tk.Button(window, text="Вывод", command=show_info)
+output_button.pack()
+info_label = tk.Label(window, text="")
+info_label.pack()
+window.mainloop()
